@@ -1,0 +1,6 @@
+1. Read input rock paper scissors from user.
+2. Compute computer choice rock paper scissors.
+3. Determine the winner.
+4. Calculate winner point.
+5. Display the winner.
+6. Display user and computer point.
