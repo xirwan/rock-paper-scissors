@@ -4,53 +4,130 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rock Paper Scissors</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <style>
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            margin: 0;
+            background-color: lightcyan;
+            font-size: 20px;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        button {
+            font-size: 20px;
+            padding: 5px;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+
+        .row {
+            height: 300px;
+            width: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background-color: white;
+            padding: 20px;
+            border: 2px solid black;
+            border-radius: 10px;
+        }
+
+    </style>
 </head>
 <body>
+    <div class="container">
+        <div class="row">
+            <p>Select Rock Paper Scissors</p>
+            <div>
+                <button value="Rock">Rock</button>
+                <button value="Paper">Paper</button>
+                <button value="Scissors">Scissors</button>
+            </div>
+            <div class="result">
+                <p id="choice"></p>
+                <p>User Score: <span id="userScore"></span></p>
+                <p>Computer Score: <span id="computerScore"></span></p>
+                <p id="result"></p>
+            </div>
+        </div>
+    </div>
+    
     <script>
-        function playGame(){
-            let humanScore = 0;
-            let computerScore = 0;
-            for(i = 1; i <= 5; i++){
+        let humanScore = 0;
+        let computerScore = 0;
+
+        document.getElementById("userScore").textContent = humanScore;
+        document.getElementById("computerScore").textContent = computerScore;
+
+        const choiceButtons = document.querySelectorAll("button");
+        const result = document.querySelector(".result");
+
+        choiceButtons.forEach((button) => {
+            button.addEventListener("click", () => {
                 function getComputerChoice(){
-                    const choice = ['rock', 'paper', 'scissors'];
+                    const choice = ['Rock', 'Paper', 'Scissors'];
                     return choice[Math.floor(Math.random()*3)];            
                 }
 
-                function getHumanChoice(){
-                    return prompt("Input your choice (Rock, Paper, Scissors)").toLowerCase();
-                }
-
-                const humanSelection = getHumanChoice();
+                const humanSelection = button.value;
                 const computerSelection = getComputerChoice();
-                console.log(playRound(humanSelection, computerSelection));
+                const scoreResult = document.getElementById("result");
 
+                playRound(humanSelection, computerSelection);
+                
                 function playRound(humanChoice, computerChoice){
-                    if (humanChoice === computerChoice){
-                        return `Draw, User choice: ${humanChoice}, Computer choice: ${computerChoice}.\nRound: ${i}\nUser Score: ${humanScore}\nComputer Score: ${computerScore}`;
-                    }
                     const rule = {
-                        rock : "scissors",
-                        paper : "rock",
-                        scissors : "paper"
+                        Rock : "Scissors",
+                        Paper : "Rock",
+                        Scissors : "Paper"
                     };
-                    if(rule[humanChoice] === computerChoice){
+
+                    if (humanChoice === computerChoice){
+                        document.getElementById("choice").textContent = `Draw, you choice is ${button.value} and computer choice is ${computerChoice}`;
+                    } else if(rule[humanChoice] === computerChoice){
                         humanScore += 1;
-                        return`You Win, ${humanChoice} beats ${computerChoice}.\nRound: ${i}\nUser Score: ${humanScore}\nComputer Score: ${computerScore}`;
+                        document.getElementById("choice").textContent = `You win, ${button.value} beats ${computerChoice}`;
+                        document.getElementById("userScore").textContent = humanScore;
                     } else {
                         computerScore += 1;
-                        return `You Lose, ${computerChoice} beats ${humanChoice}.\nRound: ${i}\nUser Score: ${humanScore}\nComputer Score: ${computerScore}`;
+                        document.getElementById("choice").textContent = `You lose, ${computerChoice} beats ${button.value}`;
+                        document.getElementById("computerScore").textContent = computerScore;
                     }
                 }
-            }
-            if(humanScore > computerScore){
-                console.log(`You are the champion with a ${humanScore} : ${computerScore} score.`);
-            } else if(humanScore = computerScore){
-                console.log(`You draw against the computer with a ${humanScore} : ${computerScore} score`);
-            } else {
-                console.log(`You lost against the computer with a ${humanScore} : ${computerScore} score.`);
-            }
-        }
-        playGame();
+
+                if(humanScore === 5){
+                    humanScore = 0;
+                    computerScore = 0;
+
+                    document.getElementById("userScore").textContent = humanScore;
+                    document.getElementById("computerScore").textContent = computerScore;
+                    scoreResult.textContent = "You are the champion";
+                } else if(computerScore === 5){
+                    humanScore = 0;
+                    computerScore = 0;
+                    
+                    document.getElementById("userScore").textContent = humanScore;
+                    document.getElementById("computerScore").textContent = computerScore;
+                    scoreResult.textContent = "You lost against the computer";
+                } else if(humanScore === 0 || computerScore === 0){
+                    scoreResult.textContent = "";
+                }
+            });
+        });
     </script>
 </body>
 </html>
