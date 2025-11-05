@@ -1,3 +1,5 @@
 # rock-paper-scissors
-Odin project exercises about rock paper scissors using javascript
+
+Rock paper scissors project exercises from odin project, implementing javascript DOM, and UI has been added, which was previously played via the console in the browser.
+
 ![Tampilan UI](ui.png)
